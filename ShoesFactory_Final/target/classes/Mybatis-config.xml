@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.shoesfactory.DAOVO.cart.cartVO" alias="cart"/>
+		<typeAlias type="com.shoesfactory.DAOVO.purchase.purchaseVO" alias="payList"/>
+		<typeAlias type="com.shoesfactory.DAOVO.admin.adminStockVO" alias="stock"/>
+		<typeAlias type="com.shoesfactory.DAOVO.search.searchVO" alias="search"/> 
+		<typeAlias type="com.shoesfactory.DAOVO.category.categoryVO" alias="category"/>
+		<typeAlias type="com.shoesfactory.DAOVO.product.ProductVO" alias="product"/>
+		<typeAlias type="com.shoesfactory.DAOVO.member.MemberVO" alias="member"/>
+		<typeAlias type="com.shoesfactory.DAOVO.member.NonMemberVO" alias="nonmember"/>
+		<typeAlias type="com.shoesfactory.DAOVO.board.BoardVO" alias="board"/>
+		<typeAlias type="com.shoesfactory.DAOVO.board.BRepleVO" alias="breple"/>
+		<typeAlias type="com.shoesfactory.DAOVO.review.ReviewVO" alias="review"/>
+		<typeAlias type="com.shoesfactory.DAOVO.product.productHisVO" alias="his"/>
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+				<dataSource type="POOLED">
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+				<property name="username" value="hr"/>
+				<property name="password" value="hr"/>
+				</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="/com/shoesfactory/DAOVO/cart/cart-mapper.xml"/>
+		<mapper resource="/com/shoesfactory/DAOVO/purchase/purchase-mapper.xml"/>
+		<mapper resource="/com/shoesfactory/DAOVO/admin/admin-mapper.xml"/>
+		<mapper resource="/com/shoesfactory/DAOVO/search/search-mapper.xml"/>
+		<mapper resource="/com/shoesfactory/DAOVO/category/category-mapper.xml"/>
+		<mapper resource="/com/shoesfactory/DAOVO/product/product-mapper.xml"/>
+		<mapper resource="/com/shoesfactory/DAOVO/member/member-mapper.xml"/>
+		<mapper resource="/com/shoesfactory/DAOVO/board/board-mapper.xml"/>
+		<mapper resource="/com/shoesfactory/DAOVO/review/review-mapper.xml"/>
+	</mappers>
+</configuration>

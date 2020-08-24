@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoesfactory.DAOVO.cart.cart-mapper">
+	
+	<select id="cartUserProduct" resultType="cart" parameterType="cart">
+	SELECT * FROM CART WHERE CART_USERNUM=#{cart_usernum,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="cartPurchase" resultType="cart" parameterType="Hashmap">
+	SELECT * FROM CART 
+	WHERE CART_USERNUM=#{cart_usernum,jdbcType=VARCHAR} 
+	AND CART_PRODUCT_NAME IN
+	<foreach collection="itemlist" item="item" open="(" close=")" separator=",">
+	#{item}
+	</foreach>
+	</select>
+	
+	<insert id="cartAddProduct" parameterType="cart">
+	INSERT INTO
+	CART(cart_usernum,
+		 cart_product_name,
+		 cart_product_amount,
+		 cart_product_size,
+		 cart_product_price,
+		 cart_product_mainimg)  
+	VALUES
+		(#{cart_usernum,jdbcType=VARCHAR},
+		#{cart_product_name,jdbcType=VARCHAR},
+		#{cart_product_amount,jdbcType=VARCHAR},
+		#{cart_product_size,jdbcType=VARCHAR},
+		#{cart_product_price,jdbcType=VARCHAR},
+		#{cart_product_mainimg,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="overlapProduct" parameterType="cart">
+	UPDATE 
+		CART 
+	SET 
+		CART_PRODUCT_AMOUNT=#{cart_product_amount,jdbcType=VARCHAR} 
+	WHERE CART_USERNUM=#{cart_usernum,jdbcType=VARCHAR} AND 
+		  CART_PRODUCT_NAME=#{cart_product_name,jdbcType=VARCHAR}
+	</update>
+	
+	<delete id="cartDeleteProduct" parameterType="cart">
+	DELETE FROM 
+		CART WHERE 
+	CART_USERNUM=#{cart_usernum,jdbcType=VARCHAR} 
+		AND 
+	CART_PRODUCT_NAME=#{cart_product_name,jdbcType=VARCHAR}
+	</delete>
+	
+	<update id="cartUpdateProduct" parameterType="cart">
+	<!-- UPDATE CART SET CART_PRODUCT_AMOUNT=#{cart_product_amount} WHERE CART_USERNUM=#{cart_usernum}
+	AND CART_PRODUCT_NAME=#{cart_product_name} -->
+	UPDATE 
+		CART 
+	SET 
+		CART_PRODUCT_AMOUNT=#{cart_product_amount,jdbcType=VARCHAR} 
+	WHERE CART_USERNUM=#{cart_usernum,jdbcType=VARCHAR} AND 
+		  CART_PRODUCT_NAME=#{cart_product_name,jdbcType=VARCHAR}
+
+	</update>
+	
+	<select id="cartoverlapCheck" resultType="Int" parameterType="cart">
+	SELECT COUNT(*)
+	FROM CART
+	WHERE CART_USERNUM
+	=#{cart_usernum,jdbcType=VARCHAR}
+	AND CART_PRODUCT_NAME
+	=#{cart_product_name,jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="pay_ready" parameterType="his">
+	INSERT INTO PURCHASEHIS(
+	HIS_TEL,
+	HIS_NAME,
+	HIS_SIZE,
+	HIS_PRICE,
+	HIS_AMOUNT,
+	HIS_IMGPATH
+	)
+	VALUES(
+	#{his_tel,jdbcType=VARCHAR},
+	#{his_name,jdbcType=VARCHAR},
+	#{his_size,jdbcType=VARCHAR},
+	#{his_price,jdbcType=VARCHAR},
+	#{his_amount,jdbcType=VARCHAR},
+	'0',
+	#{his_imgpath,jdbcType=VARCHAR}
+	)
+	</insert>
+	
+	
+</mapper>

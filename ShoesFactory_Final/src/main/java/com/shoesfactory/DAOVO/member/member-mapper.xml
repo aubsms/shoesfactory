@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoesfactory.DAOVO.member.member-mapper">
+
+
+	
+
+
+
+<!-- 로그인 체크 -->
+<select id="loginCheck" parameterType="member" resultType="String">
+SELECT mem_pw FROM member
+WHERE mem_id = #{mem_id}
+</select>
+
+<!-- 비회원 로그인 체크 -->
+<select id="nmloginCheck" parameterType="nonmember" resultType="String">
+SELECT nonmem_pw FROM NONMEM
+WHERE nonmem_tel = #{nonmem_tel}
+</select>
+
+<!-- 전화번호 -->
+<select id="usernum" parameterType="member" resultType="String">
+SELECT mem_tel FROM member
+WHERE mem_id = #{mem_id}
+</select>
+
+
+<!-- 회원 가입 -->
+<insert id="signup" parameterType="member">
+INSERT INTO member(mem_id,mem_pw,mem_name,mem_sex,mem_tel,mem_email,mem_postnm,mem_addr,mem_dtaddr,mem_exaddr,mem_yy,mem_mm,mem_dd,mem_interest) 
+VALUES(#{mem_id},#{mem_pw},#{mem_name}, #{mem_sex}, #{mem_tel}, #{mem_email}, #{mem_postnm},#{mem_addr}, #{mem_dtaddr,jdbcType=VARCHAR},
+#{mem_exaddr,jdbcType=VARCHAR},#{mem_yy},#{mem_mm},#{mem_dd},#{mem_interest,jdbcType=VARCHAR})
+</insert>
+
+<!-- 회원가입 아이디 중복체크 -->
+<select id="IdCheck" parameterType="String" resultType="String">
+SELECT COUNT(*) FROM MEMBER
+WHERE mem_id = #{mem_id}
+</select>
+
+
+<!-- 회원가입 이메일 중복체크 -->
+<select id="EmailCheck" parameterType="String" resultType="String">
+SELECT COUNT(*) FROM MEMBER
+WHERE mem_email = #{mem_email}
+</select>
+
+
+<!-- 회원가입 전화번호 중복체크 -->
+<select id="TelCheck" parameterType="String" resultType="String">
+SELECT COUNT(*) FROM MEMBER
+WHERE mem_tel = #{mem_tel}
+</select>
+
+<!-- 비회원가입 전화번호 중복체크 -->
+<select id="NonmemTelCheck" parameterType="String" resultType="String">
+SELECT COUNT(*) FROM NONMEM
+WHERE nonmem_tel = #{nonmem_tel}
+</select>
+
+
+
+<!-- 비회원 가입 -->
+<insert id="nmsignup" parameterType="nonmember">
+INSERT INTO NONMEM(nonmem_tel,nonmem_pw) 
+VALUES(#{nonmem_tel},#{nonmem_pw})
+</insert>
+
+<!-- 회원 정보 조회 -->
+<select id ="getInfo" parameterType="member" resultType="member">
+select * from member where mem_id =#{mem_id,jdbcType=VARCHAR}
+</select>
+
+<!-- 비회원 정보 조회 -->
+<select id ="nmgetInfo" parameterType="nonmember" resultType="nonmember">
+select * from NONMEM where nonmem_tel =#{nonmem_tel,jdbcType=VARCHAR}
+</select>
+
+
+<!-- 회원 탈퇴 -->
+<delete id="deleteAccount" parameterType="member">
+DELETE FROM member WHERE mem_id=#{mem_id,jdbcType=VARCHAR}
+</delete>
+
+
+<!-- 회원 정보 수정 -->
+<update id="updateAccount" parameterType="member">
+UPDATE MEMBER SET 
+mem_pw=#{mem_pw}, 
+mem_postnm=#{mem_postnm},
+mem_addr=#{mem_addr}, 
+mem_dtaddr=#{mem_dtaddr},
+mem_exaddr=#{mem_exaddr},
+mem_email=#{mem_email},
+mem_interest=#{mem_interest,jdbcType=VARCHAR}
+WHERE mem_id=#{mem_id}
+</update>
+
+<!-- 아이디 찾기 -->
+<select id="findID" parameterType="String" resultType="String">
+select mem_id from member where mem_tel=#{mem_tel,jdbcType=VARCHAR}
+</select>
+
+<!-- 비밀번호 찾기 -->
+<select id="findPW" parameterType="member" resultType="String">
+select mem_pw from member where mem_id=#{mem_id,jdbcType=VARCHAR} and mem_tel = #{mem_tel,jdbcType=VARCHAR}
+</select>
+
+	
+	
+
+	
+
+
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoesfactory.purchaseDAOVO.purchase-mapper">
+	
+<!-- 	<select id="cartPurchase" resultType="cart" parameterType="Hashmap">
+	SELECT * FROM CART 
+	WHERE CART_USERNUM=#{USERNUM} 
+	AND CART_PRODUCT_NAME IN
+	<foreach collection="itemlist" item="item" open="(" close=")" separator=",">
+	#{item}
+	</foreach>
+	</select> -->
+	
+	<select id="cartall" resultType="cart" parameterType="cart">
+	SELECT * FROM CART
+	WHERE CART_USERNUM=#{cart_usernum}
+	</select>
+	
+	<select id="userinfo" resultType="member" parameterType="member">
+	SELECT * FROM MEMBER
+	WHERE MEM_TEL=#{mem_tel};
+	</select>
+	
+	<insert id="payListAdd"  parameterType="his">
+	INSERT INTO PURCHASEHIS(
+	HIS_TEL,
+	HIS_NAME,
+	HIS_AMOUNT,
+	HIS_SIZE,
+	HIS_PRICE,
+	HIS_STATUS,
+	HIS_IMGPATH
+	)
+	VALUES(
+	#{his_tel},
+	#{his_name},
+	#{his_amount},
+	#{his_size},
+	#{his_price},
+	1,
+	#{his_imgpath}
+	)
+	</insert>
+	
+	
+	<delete id="deletepay" parameterType="cart">
+	delete from cart
+	where cart_usernum=#{cart_usernum} and cart_product_name=#{cart_product_name}
+	</delete>
+	
+	<select id="paylist" resultType="his" parameterType="his">
+	SELECT * FROM purchasehis
+	WHERE his_tel=#{his_tel}
+	</select>
+	
+	<select id="amountTotal" resultType="List" parameterType="Hashmap">
+	SELECT cart_product_price FROM CART 
+	WHERE CART_USERNUM=#{usernum} 
+	</select>
+	
+
+</mapper>

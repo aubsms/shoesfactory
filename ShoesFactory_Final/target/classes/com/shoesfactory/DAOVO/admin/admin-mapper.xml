@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoesfactory.DAOVO.admin.admin-mapper">
+
+<select id="mem_Allsearch_List" resultType="member">
+
+SELECT * FROM MEMBER
+
+</select>
+
+<!--제품 한개 검색 -->
+<select id="prod_oneSeach" resultType="product" parameterType="product">
+
+SELECT * FROM PRODUCT
+
+WHERE PROD_NAME=#{prod_name}
+
+</select>
+
+<select id="prod_Allsearch_list" resultType="product">
+
+SELECT * FROM PRODUCT
+
+</select>
+
+<select id="prod_standard" resultType="product" parameterType="product">
+
+SELECT * FROM PRODUCT 
+
+WHERE PROD_CAT_BIG=${prod_cat_big} 
+
+AND PROD_CAT_SMALL=${prod_cat_small}
+
+</select>
+
+
+<!-- 제품재고 검색 -->
+<select id="prod_allstock" resultType="stock">
+
+SELECT * FROM SHOESIZE
+
+
+</select>
+<!-- 하나 제품 제고 검색 -->
+<select id="prod_stockone" resultType="stock" parameterType="stock">
+
+SELECT * FROM SHOESIZE
+
+WHERE PROD_NAME=#{prod_name}
+
+</select>
+
+<!-- 제품입력 -->
+<insert id="prod_insert" parameterType="product">
+INSERT INTO PRODUCT(
+
+PROD_NAME,
+
+PROD_PRICE,
+
+PROD_AMOUNT,
+
+PROD_CAT_BIG,
+
+PROD_CAT_SMALL,
+
+PROD_MAIN_IMGPATH,
+
+PROD_THUMB_IMGPATH,
+
+PROD_SUB_IMGPATH)
+
+VALUES(
+
+#{prod_name},
+
+#{prod_price},
+
+1,
+
+#{prod_cat_big},
+
+#{prod_cat_small},
+
+#{prod_main_imgpath},
+
+#{prod_thumb_imgpath},
+
+#{prod_sub_imgpath})     
+</insert>
+
+<!-- 제품수정 -->
+<update id="prod_update" parameterType="product">
+
+UPDATE PRODUCT SET
+
+prod_name=#{prod_name},
+
+prod_price=#{prod_price},
+
+prod_amount=#{prod_amount},
+
+prod_cat_big=#{prod_cat_big},
+
+prod_cat_small=#{prod_cat_small},
+
+prod_main_imgpath=#{prod_main_imgpath},
+
+prod_thumb_imgpath=#{prod_thumb_imgpath},
+
+prod_sub_imgpath=#{prod_sub_imgpath}
+
+WHERE prod_name=#{prod_name}
+
+</update>
+
+<!-- 제품삭제 -->
+<delete id="prod_delete" parameterType="product">
+
+DELETE FROM PRODUCT
+
+WHERE PROD_NAME=#{prod_name}
+
+</delete>
+
+<!-- 재고 -->
+<insert id="prod_stock" parameterType="stock">
+INSERT INTO SHOESIZE(
+
+PROD_NAME,
+
+SIZE_230,
+
+SIZE_240,
+
+SIZE_250,
+
+SIZE_260,
+
+SIZE_270,
+
+SIZE_280)
+
+VALUES(
+#{prod_name},
+
+#{size_230},
+
+#{size_240},
+
+#{size_250},
+
+#{size_260},
+
+#{size_270},
+
+#{size_280}
+)
+</insert>
+
+<!-- 재고 수정 -->
+<update id="stock_update" parameterType="stock">
+
+UPDATE SHOESIZE SET
+
+SIZE_230=#{size_230},
+
+SIZE_240=#{size_240},
+
+SIZE_250=#{size_250},
+
+SIZE_260=#{size_260},
+
+SIZE_270=#{size_270},
+
+SIZE_280=#{size_280}
+
+WHERE PROD_NAME=#{prod_name}
+
+</update>
+
+<!-- 제품삭제시 재고 먼저 삭제 -->
+<delete id="stock_delete" parameterType="stock">
+
+DELETE FROM SHOESIZE
+
+WHERE PROD_NAME=#{prod_name}
+
+</delete>
+
+
+</mapper>

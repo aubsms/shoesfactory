@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoesfactory.DAOVO.category.category-mapper">
+	
+	<!-- 대분류 -->
+	<select id="bigcategory_product" resultType="category" parameterType="category">
+		select *
+		from product
+		where prod_cat_big=#{prod_cat_big}
+	</select>
+	
+	<select id="big_small" resultType="category" parameterType="category">
+		select *
+		from category
+		where prod_cat_big=#{prod_cat_big}
+	</select>
+
+	<!-- 소분류 -->
+	<select id="smallcategory_product" resultType="category" parameterType="category">
+		select *
+		from product
+		where prod_cat_small=#{prod_cat_small}
+	</select>
+	
+	<!-- 대분류 사이즈,가격 검색 -->
+	<select id="big_all_product" resultType="category" parameterType="HashMap">
+		select *
+		from product
+		where prod_cat_big='${bigkey}'
+			 <if test="pricekey != null">
+			  	and (${pricekey})
+			  </if>
+			  <if test="sizekey != null">
+			  	and prod_name in
+			  	(select prod_name
+			   	from shoesize
+			  	where ${sizekey})
+			  </if>
+	</select>
+	
+	<!-- 대분류 정렬 -->
+	<select id="big_sort" resultType="category" parameterType="HashMap">
+		select *
+		from product
+		where prod_name in (${productkey})
+		order by prod_price
+		<if test="sortkey.equals('high_price')">
+			desc
+		</if>
+		<if test="sortkey.equals('low_price')">
+			asc
+		</if>
+	</select>
+	
+	<!-- 소분류 사이즈,가격 검색 -->
+	<select id="small_all_product" resultType="category" parameterType="HashMap">
+		select *
+		from product
+		where prod_cat_small='${smallkey}'
+			 <if test="pricekey != null">
+			  	and (${pricekey})
+			  </if>
+			  <if test="sizekey != null">
+			  	and prod_name in
+			  	(select prod_name
+			   	from shoesize
+			  	where ${sizekey})
+			  </if>
+	</select>
+	
+	<!-- 소분류 정렬 -->
+	<select id="small_sort" resultType="category" parameterType="HashMap">
+		select *
+		from product
+		where prod_name in (${productkey})
+		order by prod_price
+		<if test="sortkey.equals('high_price')">
+			desc
+		</if>
+		<if test="sortkey.equals('low_price')">
+			asc
+		</if>
+	</select>
+</mapper>

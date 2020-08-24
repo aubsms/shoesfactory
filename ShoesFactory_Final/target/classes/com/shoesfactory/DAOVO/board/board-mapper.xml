@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoesfactory.DAOVO.board.board-mapper">
+
+	<!--  게시판 리스트 출력 -->
+	<select id="getBoardList" resultType="board" parameterType="board">
+	SELECT 
+	* 
+	FROM BOARD 
+	ORDER BY BOARD_NO DESC
+	</select>
+	
+	<!-- 번호로 게시글을 조회한다. -->
+	<select id="getDeteilBoard" resultType="board" parameterType="board">
+	SELECT * FROM BOARD WHERE BOARD_NO=#{BOARD_NO}
+	</select>
+	
+	<update id="getUpdateBoard" parameterType="board">
+	UPDATE BOARD
+	SET 
+	BOARD_NO=#{BOARD_NO},
+	BOARD_TYPE=#{BOARD_TYPE}, 
+	BOARD_TITLE=#{BOARD_TITLE}, 
+	BOARD_CONTEXT=#{BOARD_CONTEXT}
+	WHERE BOARD_NO=#{BOARD_NO}
+	</update>
+	
+	<delete id="getDeleteBoard" parameterType="board">
+	DELETE BOARD
+	WHERE BOARD_NO=#{BOARD_NO}
+	</delete>
+	
+	<!-- insert의 BOARD_NO는 SEQ_BOARD.NEXTVAL을 넣어 자동으로 찍히게 표시한다.
+	또한,  BOARD_GROUPNO도 같은 방식으로 표시한다. -->
+	<insert id="getCreateBoard" parameterType="board">
+	INSERT INTO BOARD (
+	BOARD_NO,
+	BOARD_TYPE,
+	BOARD_WRITER,
+	BOARD_TITLE,
+	BOARD_CONTEXT,
+	BOARD_PW) 
+	VALUES (
+	SEQ_BOARD.NEXTVAL,
+	#{BOARD_TYPE},
+	#{BOARD_WRITER},
+	#{BOARD_TITLE},
+	#{BOARD_CONTEXT},
+	#{BOARD_PW})
+	</insert>
+	
+	<!-- 조회수 카운트, 방식은 게시글을 클릭 시 글의 조회 수를 +1 시킨 뒤 상세 페이지를 띄우는 방식으로 한다. -->
+	<update id="getUpdateViewCnt" parameterType="board">
+	UPDATE BOARD
+	SET BOARD_HIT = BOARD_HIT+1
+	WHERE BOARD_NO=#{BOARD_NO}
+	</update>
+	
+	<select id="getBRepleList" resultType="breple" parameterType="board">
+	SELECT 
+	* 
+	FROM B_REPLE
+	WHERE BOARD_NO=#{BOARD_NO}
+	ORDER BY REPLE_NO DESC
+	</select>
+	
+	<select id="getSelectBRepleList" resultType="breple" parameterType="board">
+	SELECT 
+	* 
+	FROM B_REPLE
+	WHERE REPLE_NO=#{REPLE_NO}
+	</select>
+	
+	
+	<insert id="getCreateBReple" parameterType="breple">
+	INSERT INTO B_REPLE (
+	REPLE_NO,
+	BOARD_NO,
+	REPLE_WRITER,
+	REPLE_CONTEXT
+	) 
+	VALUES (
+	SEQ_BR.NEXTVAL,
+	#{BOARD_NO},
+	#{REPLE_WRITER},
+	#{REPLE_CONTEXT}
+	)
+	</insert>
+	
+	<update id="getUpdateBReple" parameterType="breple">
+	UPDATE B_REPLE
+	SET 
+	REPLE_NO=#{REPLE_NO},
+	BOARD_NO=#{BOARD_NO}, 
+	REPLE_WRITER=#{REPLE_WRITER},
+	REPLE_CONTEXT=#{REPLE_CONTEXT}
+	WHERE REPLE_NO=#{REPLE_NO}
+	</update>
+	
+	<delete id="getDeleteBReple" parameterType="breple">
+	DELETE B_REPLE
+	WHERE REPLE_NO=#{REPLE_NO}
+	</delete>
+	
+	<delete id="getDeleteBReple1" parameterType="breple">
+	DELETE B_REPLE
+	WHERE BOARD_NO=#{BOARD_NO}
+	</delete>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="BoardpwCheck" parameterType="member" resultType="String">
+	select BOARD_PW from BOARD where BOARD_NO=#{BOARD_NO,jdbcType=VARCHAR}
+	</select>
+	
+</mapper>
+
+	
